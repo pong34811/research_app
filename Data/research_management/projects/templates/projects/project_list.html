@@ -1,0 +1,31 @@
+<!-- templates/projects/project_list.html -->
+<h1>Research Projects</h1>
+<a href="{% url 'project_add' %}">Add New Project</a>
+<a href="{% url 'add_event' %}">Add New tag</a>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ชื่อโครงการ</th>
+        <th scope="col">ชื่อผู้เเต่ง</th>
+        <th scope="col">PDF</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for project in projects %}
+        <tr>
+            <td>{{ project.project_name }}</td>
+            <td>{{ project.author_name }}</td>
+            <td>
+                {% if project.pdf_file %}
+                    <a href="{{ project.pdf_file.url }}" target="_blank">Download PDF</a>
+                {% else %}
+                    No file
+                {% endif %}
+            </td>
+           
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

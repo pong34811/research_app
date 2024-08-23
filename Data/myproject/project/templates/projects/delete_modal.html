@@ -1,0 +1,16 @@
+<!-- delete_modal.html -->
+<div class="modal fade" id="deleteModal{{ project.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ project.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content p-4">
+            <h1 class="mb-4 text-center">Delete Project</h1>
+            <p class="text-center">Are you sure you want to delete the project <strong>{{ project.project_name }}</strong>?</p>
+            <form method="post" action="{% url 'delete_project' project.id %}">
+                {% csrf_token %}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

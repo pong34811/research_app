@@ -1,0 +1,7 @@
+Company Code : 670034
+POS IP Address : 192.168.0.4
+POS Name : TheBellCafe255
+POS ID : E118300002A7865
+Shop Code : 21255
+Client ID : 218
+Client Secret : 64AkLncsYUVhSeOXwryBmrhS0i1xTOn6L47zmP0x
