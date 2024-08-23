@@ -1,7 +1,0 @@
-Company Code : 670056
-POS IP Address : 192.168.0.4
-POS Name : E118300002A7924
-POS ID : E118300002A7924
-Shop Code : 10165
-Client ID : 265
-Client Secret : OFH9Jgvh9eu4Ixjvoxdnik0RKlyIfkV0OFYjZXzo
