@@ -1,0 +1,41 @@
+
+
+<div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProjectModalLabel">Add New Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'research_add' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <label for="project_name">Project Name:</label>
+                    <input type="text" name="project_name" class="form-control" required>
+                    
+                    <label for="author_name">Author Name:</label>
+                    <input type="text" name="author_name" class="form-control" required>
+                    
+                    <label for="project_date">Project Date:</label>
+                    <input type="date" name="project_date" class="form-control" required>
+                    
+                    <label for="project_tag">Tags:</label>
+                    <select id="project_tag" name="project_tag" class="form-control" multiple="multiple">
+                        {% for tag in tags %}
+                            <option value="{{ tag.id }}">{{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <label for="image">Image:</label>
+                    <input type="file" name="image" class="form-control">
+                    
+                    <label for="pdf_file">PDF File:</label>
+                    <input type="file" name="pdf_file" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
