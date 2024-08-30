@@ -17,7 +17,7 @@ class ProjectModel(models.Model):
     project_name = models.CharField(max_length=255)
     author_name = models.CharField(max_length=255)
     project_date = models.DateField()
-    project_tag = models.ManyToManyField(TagModel)
+    project_tag = models.ManyToManyField(TagModel, related_name='projects')
     image = models.ImageField(upload_to="img/")
     pdf_file = models.FileField(upload_to="pdf/")
     created_time = models.DateTimeField(auto_now_add=True)

@@ -16,12 +16,13 @@ from .forms import ProjectForm  # สมมุติว่าคุณมีฟ�
 # messages
 from django.contrib import messages
 
-
-
-
 #Pagination bootsrap
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
+#tag_count
+from django.db.models import Count
+
+#auth_views.py
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -51,7 +52,7 @@ def logout_view(request):
     return redirect('login')
 
 
-# admin/views.py
+# admin_views.py
 def admin_list(request):
     admin = request.user
     users_count = User.objects.count()
@@ -60,6 +61,9 @@ def admin_list(request):
     
     return render (request, 'admins/admin_list.html',{'admin':admin ,'users_count':users_count ,'projects_count':projects_count,'tags_count':tags_count})
 
+
+
+#research_views.py
 def research_list(request):
     projects = ProjectModel.objects.all()
     tags = TagModel.objects.all()
@@ -114,10 +118,6 @@ def research_add(request):
     return render(request, 'admins/research_crud/research_add_modal.html', {'tags': tags})
 
 
-
-
-
-
 @login_required
 def research_edit(request, id):
     project = get_object_or_404(ProjectModel, id=id)
@@ -162,7 +162,39 @@ def research_delete(request, id):
     return render(request, 'admins/research_crud/research_delete.html', {'project': project})
 
 
+# Tag_Views.py
 
+def tag_list (request):
+    tags = TagModel.objects.annotate(project_count=Count('projects'))
+    
+    admin = request.user
+    
+     #code Pagination
+    page = request.GET.get('page', 1)
+    paginator = Paginator(tags, 5)
+    
+    try:
+        tagspage = paginator.page(page)
+    except PageNotAnInteger:
+        tagspage = paginator.page(1)
+    except EmptyPage:
+        tagspage = paginator.page(paginator.num_pages)
+        
+    return render (request, 'admins/tag_crud/tag_list.html',{'admin':admin,'tagspage':tagspage })
+
+def tag_add (request):
+    if request.method == 'POST':
+        tag_name = request.POST.get('tag_name')
+        
+        tag = TagModel.objects.create(
+            name = tag_name
+        )
+        tag.save()
+        return redirect('tag_list')
+    return render(request, 'admins/tag_crud/tag_add_modal.html')
+        
+# user_Views.py
 def user_list(request):
     return render(request, 'users/user_list.html')
 
+    

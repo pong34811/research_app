@@ -1,0 +1,40 @@
+<!-- Add tag Modal -->
+<div class="modal fade" id="addtagModal" tabindex="-1" aria-labelledby="addtagModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="addtagModalLabel">
+                    <i class="fas fa-plus-circle me-2"></i> Add New Tag
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'tag_add' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="tag_name" class="form-label">tag Name:</label>
+                        <input type="text" name="tag_name" id="tag_name" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#project_tag').select2({
+            placeholder: "Select tags",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+</script>
