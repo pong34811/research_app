@@ -1,0 +1,84 @@
+<!-- Edit Research Modal -->
+<div class="modal fade" id="editResearchModal-{{ project.id }}" tabindex="-1" aria-labelledby="editResearchModalLabel-{{ project.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editResearchModalLabel-{{ project.id }}">
+                    <i class="fas fa-edit me-2"></i> Edit Research
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'research_edit' project.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" name="project_id" value="{{ project.id }}">
+
+                    <div class="mb-3">
+                        <label for="project_name-{{ project.id }}" class="form-label">Project Name:</label>
+                        <input type="text" id="project_name-{{ project.id }}" name="project_name" class="form-control" value="{{ project.project_name }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="author_name-{{ project.id }}" class="form-label">Author Name:</label>
+                        <input type="text" id="author_name-{{ project.id }}" name="author_name" class="form-control" value="{{ project.author_name }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="project_date-{{ project.id }}" class="form-label">Project Date:</label>
+                        <input type="date" id="project_date-{{ project.id }}" name="project_date" class="form-control" value="{{ project.project_date|date:'Y-m-d' }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="project_tag-{{ project.id }}" class="form-label">Tags:</label>
+                        <select id="project_tag-{{ project.id }}" name="project_tag" class="form-select select2" multiple>
+                            {% for tag in tags %}
+                                <option value="{{ tag.id }}" {% if tag in project.project_tag.all %}selected{% endif %}>
+                                    {{ tag.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="image-{{ project.id }}" class="form-label">Image:</label>
+                        {% if project.image %}
+                            <div class="mb-2">
+                                <img src="{{ project.image.url }}" alt="Current Image" class="img-thumbnail" style="max-width: 100%; height: auto;">
+                                <p class="mt-2 text-muted">Current Image: {{ project.image.name }}</p>
+                            </div>
+                        {% endif %}
+                        <input type="file" id="image-{{ project.id }}" name="image" class="form-control">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="pdf_file-{{ project.id }}" class="form-label">PDF File:</label>
+                        {% if project.pdf_file %}
+                            <div class="mb-2">
+                                <p class="text-muted">{{ project.pdf_file.name }}</p>
+                            </div>
+                        {% endif %}
+                        <input type="file" id="pdf_file-{{ project.id }}" name="pdf_file" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#project_tag-{{ project.id }}').select2({
+            placeholder: "Select tags",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+</script>
