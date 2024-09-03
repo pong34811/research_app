@@ -1,0 +1,26 @@
+<!-- Edit Research Modal -->
+<div class="modal fade" id="editTagModal-{{ tag.id }}" tabindex="-1" aria-labelledby="editTagModalLabel-{{ tag.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editTagModalLabel-{{ tag.id }}">
+                    <i class="fas fa-edit me-2"></i> Edit Research
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{% url 'tag_edit' tag.id %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="tag_name" class="form-label">Tag Name:</label>
+                        <input type="text" id="tag_name" name="tag_name" value="{{ tag.name }}" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

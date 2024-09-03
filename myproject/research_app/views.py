@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import get_object_or_404
 # import Data Model
 from django.contrib.auth.models import User
@@ -51,6 +51,22 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+
+def change_password(request):
+    if request.method == 'POST':
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 and password2 and password1 == password2:
+            user = request.user
+            user.set_password(password1)
+            user.save()
+            update_session_auth_hash(request, user)  # Keeps the user logged in
+            messages.success(request, 'Your password has been successfully changed.')
+            return redirect('admin_list')
+        else:
+            messages.error(request, 'Passwords do not match. Please try again.')
+    return redirect('admin_list')
 
 # admin_views.py
 def admin_list(request):
@@ -192,6 +208,29 @@ def tag_add (request):
         tag.save()
         return redirect('tag_list')
     return render(request, 'admins/tag_crud/tag_add_modal.html')
+
+def tag_edit (request , id):
+    tag = get_object_or_404(TagModel, id=id)
+    if request.method == 'POST':
+        tag_name = request.POST.get('tag_name')
+        
+        tag.name = tag_name
+        
+        tag.save()
+        
+        return redirect('tag_list')
+    
+    return render(request, 'admins/tag_crud/tag_list.html', {'tag': tag})
+
+
+def tag_delete(request, id):
+    tag = get_object_or_404(TagModel, id=id)
+
+    if request.method == 'POST':
+        tag.delete()
+        return redirect('tag_list')
+
+    return render(request, 'admins/tag_crud/tag_list.html', {'tag': tag})
         
 # user_Views.py
 def user_list(request):
