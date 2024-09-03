@@ -5,50 +5,35 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <title>Bootstrap 5 Responsive Admin Dashboard</title>
+
+    <title>Dashboard</title>
   </head>
 
   <body>
     <div class="d-flex" id="wrapper">
       <!-- Sidebar -->
-      <div class="bg-white" id="sidebar-wrapper">
-        <div
-          class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"
-        >
+      <div class="bg-white border-end" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center py-4 bg-primary text-white fw-bold text-uppercase">
           <i class="fas fa-user-secret me-2"></i>Codersbite
         </div>
         <div class="list-group list-group-flush my-3">
-          <a
-            href="{% url 'admin_list' %}"
-            class="list-group-item list-group-item-action bg-transparent second-text active"
-          >
+          <a href="{% url 'admin_list' %}" class="list-group-item list-group-item-action bg-transparent second-text active">
             <i class="fas fa-tachometer-alt me-2"></i>Dashboard
           </a>
-          <a
-            href="{% url 'research_list' %}"
-            class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-          >
+          <a href="{% url 'research_list' %}" class="list-group-item list-group-item-action bg-transparent second-text">
             <i class="fas fa-book me-2"></i>Research
           </a>
-          <a
-            href="{% url 'tag_list' %}"
-            class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-          >
+          <a href="{% url 'tag_list' %}" class="list-group-item list-group-item-action bg-transparent second-text">
             <i class="fas fa-tag me-2"></i>Tag
           </a>
-          <a
-            href="{% url 'logout' %}"
-            class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"
-          >
+          <a href="{% url 'logout' %}" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
             <i class="fas fa-power-off me-2"></i>Logout
           </a>
         </div>
@@ -57,126 +42,79 @@
 
       <!-- Page Content -->
       <div id="page-content-wrapper">
-        <nav
-          class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4"
-        >
+        <nav class="navbar navbar-expand-lg navbar-light bg-light py-4 px-4 border-bottom">
           <div class="d-flex align-items-center">
             <i
-              class="fas fa-align-left primary-text fs-4 me-3"
+              class="fas fa-align-left primary-text fs-4 me-3 "
               id="menu-toggle"
             ></i>
             <h2 class="fs-2 m-0">Dashboard</h2>
           </div>
-
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle second-text fw-bold"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i class="fas fa-user me-2"></i>
-                  {{ admin.username }}
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a
-                      class="dropdown-item"
-                      data-bs-toggle="modal"
-                      data-bs-target="#passwordResetModal"
-                      >Change Password</a
-                    >
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{% url 'logout' %}"
-                      >Logout</a
-                    >
-                  </li>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-2"></i>{{ admin.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#passwordResetModal">Change Password</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 {% include 'admins/password_reset_modal.html' %}
-              </li>
-            </ul>
-          </div>
+            </div>
         </nav>
 
         <div class="container-fluid px-4">
-          <div class="row g-3 my-2">
-            <!-- User Count Card -->
-            <div class="col-md">
-              <div
-                class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded"
-              >
-                <div>
-                  <h3 class="fs-2">{{ users_count }}</h3>
-                  <p class="fs-5">Users</p>
+          <div class="row g-3 my-4">
+            <!-- Dashboard Statistics Cards -->
+            <div class="col-md-4">
+              <div class="card bg-light shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 class="card-title">Users</h5>
+                    <h2>{{ users_count }}</h2>
+                  </div>
+                  <i class="fas fa-user fa-3x text-primary"></i>
                 </div>
-                <i
-                  class="fas fa-user fs-1 primary-text border rounded-full secondary-bg p-3"
-                ></i>
               </div>
             </div>
 
-            <!-- Projects Count Card -->
-            <div class="col-md">
-              <div
-                class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded"
-              >
-                <div>
-                  <h3 class="fs-2">{{ projects_count }}</h3>
-                  <p class="fs-5">Projects</p>
+            <div class="col-md-4">
+              <div class="card bg-light shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 class="card-title">Projects</h5>
+                    <h2>{{ projects_count }}</h2>
+                  </div>
+                  <i class="fas fa-book fa-3x text-primary"></i>
                 </div>
-                <i
-                  class="fas fa-book fs-1 primary-text border rounded-full secondary-bg p-3"
-                ></i>
               </div>
             </div>
 
-            <!-- Tags Count Card -->
-            <div class="col-md">
-              <div
-                class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded"
-              >
-                <div>
-                  <h3 class="fs-2">{{ tags_count }}</h3>
-                  <p class="fs-5">Tags</p>
+            <div class="col-md-4">
+              <div class="card bg-light shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 class="card-title">Tags</h5>
+                    <h2>{{ tags_count }}</h2>
+                  </div>
+                  <i class="fas fa-tag fa-3x text-primary"></i>
                 </div>
-                <i
-                  class="fas fa-tag fs-1 primary-text border rounded-full secondary-bg p-3"
-                ></i>
               </div>
             </div>
           </div>
 
-          <!-- Tags and Projects List -->
-          <div class="row my-5">
-            <!-- Projects Overview Card -->
-            <div class="col-md-6 mb-3">
-              <div class="card shadow mb-4">
-                <div
-                  class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                >
-                  <h6 class="m-0 font-weight-bold text-primary">
-                    Projects Overview
-                  </h6>
-                </div>
+          <!-- Projects and Tags Overview -->
+          <div class="row my-4">
+            <div class="col-md-6">
+              <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Projects Overview</div>
                 <div class="card-body overflow-auto" style="max-height: 200px">
-                  <!-- Replace this with your project list content -->
                   <ul class="list-group">
                     {% for project in projects %}
                     <li class="list-group-item">{{ project.project_name }}</li>
@@ -188,18 +126,10 @@
               </div>
             </div>
 
-            <!-- Tags Overview Card -->
             <div class="col-md-6">
-              <div class="card shadow mb-4">
-                <div
-                  class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                >
-                  <h6 class="m-0 font-weight-bold text-primary">
-                    Tags Overview
-                  </h6>
-                </div>
+              <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Tags Overview</div>
                 <div class="card-body overflow-auto" style="max-height: 200px">
-                  <!-- Replace this with your tag list content -->
                   <ul class="list-group">
                     {% for tag in tags %}
                     <li class="list-group-item">{{ tag.name }}</li>
@@ -211,49 +141,23 @@
               </div>
             </div>
           </div>
-          <div class="row my-5">
-            <!-- Projects Chart -->
-            <div class="col-md-6 mb-3">
-              <div class="card shadow mb-4 h-100">
-                <div
-                  class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                >
-                  <h6 class="m-0 font-weight-bold text-primary">
-                    Projects Overview
-                  </h6>
-                </div>
-                <div
-                  class="card-body d-flex align-items-center justify-content-center"
-                >
-                  <div
-                    class="chart-container"
-                    style="position: relative; height: 400px; width: 100%"
-                  >
-                    <canvas id="projectsChart"></canvas>
-                  </div>
+
+          <!-- Charts for Projects and Tags -->
+          <div class="row my-4">
+            <div class="col-md-6">
+              <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Projects Overview</div>
+                <div class="card-body" style="position: relative; height: 300px; width: 100%">
+                  <canvas id="projectsChart"></canvas>
                 </div>
               </div>
             </div>
 
-            <!-- Tags Chart -->
-            <div class="col-md-6 mb-3">
-              <div class="card shadow mb-4 h-100">
-                <div
-                  class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                >
-                  <h6 class="m-0 font-weight-bold text-primary">
-                    Tags Overview
-                  </h6>
-                </div>
-                <div
-                  class="card-body d-flex align-items-center justify-content-center"
-                >
-                  <div
-                    class="chart-container"
-                    style="position: relative; height: 400px; width: 100%"
-                  >
-                    <canvas id="tagsChart"></canvas>
-                  </div>
+            <div class="col-md-6">
+              <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Tags Overview</div>
+                <div class="card-body" style="position: relative; height: 300px; width: 100%">
+                  <canvas id="tagsChart"></canvas>
                 </div>
               </div>
             </div>
@@ -263,17 +167,19 @@
       <!-- /#page-content-wrapper -->
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      var el = document.getElementById("wrapper");
-      var toggleButton = document.getElementById("menu-toggle");
+      const el = document.getElementById("wrapper");
+      const toggleButton = document.getElementById("menu-toggle");
 
       toggleButton.onclick = function () {
-        el.classList.toggle("toggled");
+          el.classList.toggle("toggled");
       };
-    </script>
-
+  </script>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
       document.addEventListener('DOMContentLoaded', function () {
           // Projects Chart
@@ -308,24 +214,10 @@
               data: {
                   labels: {{ tag_names|safe }},
                   datasets: [{
-                      label: 'Tag Counts',
+                      label: 'Number of Tags',
                       data: {{ tag_counts|safe }},
-                      backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(255, 206, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(153, 102, 255, 0.2)',
-                          'rgba(255, 159, 64, 0.2)'
-                      ],
-                      borderColor: [
-                          'rgba(255, 99, 132, 1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)',
-                          'rgba(153, 102, 255, 1)',
-                          'rgba(255, 159, 64, 1)'
-                      ],
+                      backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'],
+                      borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
                       borderWidth: 1
                   }]
               },
@@ -336,6 +228,5 @@
           });
       });
   </script>
-  
   </body>
 </html>
