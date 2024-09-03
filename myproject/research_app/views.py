@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+
 # import Data Model
 from django.contrib.auth.models import User
 from .models import ProjectModel, TagModel
@@ -71,32 +73,69 @@ def change_password(request):
 # admin_views.py
 def admin_list(request):
     admin = request.user
+    projects = ProjectModel.objects.all()
     users_count = User.objects.count()
     projects_count = ProjectModel.objects.count()
     tags_count = TagModel.objects.count()
     
-    return render (request, 'admins/admin_list.html',{'admin':admin ,'users_count':users_count ,'projects_count':projects_count,'tags_count':tags_count})
+    # Get all tags and their related project counts
+    tags = TagModel.objects.annotate(project_count=Count('projects'))
+    
+    # Aggregate count of tags
+    tag_counts = tags.values('name', 'project_count').order_by('name')
+    tag_names = [entry['name'] for entry in tag_counts]
+    tag_counts = [entry['project_count'] for entry in tag_counts]
 
-
+    # Aggregate count of projects by created_time
+    project_dates = ProjectModel.objects.values('created_time').annotate(count=Count('id')).order_by('created_time')
+    
+    # Combine counts for the same date
+    date_to_count = {}
+    for entry in project_dates:
+        date_str = entry['created_time'].strftime('%Y-%m-%d')
+        if date_str in date_to_count:
+            date_to_count[date_str] += entry['count']
+        else:
+            date_to_count[date_str] = entry['count']
+    
+    dates = list(date_to_count.keys())
+    counts = list(date_to_count.values())
+    
+    return render(request, 'admins/admin_list.html', {
+        'admin': admin,
+        'users_count': users_count,
+        'projects_count': projects_count,
+        'tags_count': tags_count,
+        'tag_names': tag_names,
+        'tags': tags,
+        'tag_counts': tag_counts,
+        'dates': dates,
+        'counts': counts,
+        'projects':projects,
+    })
 
 #research_views.py
 def research_list(request):
     projects = ProjectModel.objects.all()
     tags = TagModel.objects.all()
     admin = request.user
-    
-    #code Pagination
+
+    # Pagination code
     page = request.GET.get('page', 1)
     paginator = Paginator(projects, 5)
     
     try:
-        projectpag = paginator.page(page)
+        projectpage = paginator.page(page)
     except PageNotAnInteger:
-        projectpag = paginator.page(1)
+        projectpage = paginator.page(1)
     except EmptyPage:
-        projectpag = paginator.page(paginator.num_pages)
+        projectpage = paginator.page(paginator.num_pages)
         
-    return render (request, 'admins/research_crud/research_list.html',{'admin':admin,'tags':tags,'projectpag':projectpag})
+    return render(request, 'admins/research_crud/research_list.html', {
+        'admin': admin,
+        'tags': tags,
+        'projectpage': projectpage,
+    })
 
 @login_required
 def research_add(request):
