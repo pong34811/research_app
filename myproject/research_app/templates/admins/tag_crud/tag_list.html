@@ -76,7 +76,7 @@
             <div class="container-fluid px-4">
                 <div class="row my-4">
                     <div class="col-md-12">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtagModal">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtagModal" title="เพิ่มข้อมูล Tag">
                             <i class="fas fa-plus"></i> Add Tags
                         </button>
                     </div>
@@ -102,12 +102,12 @@
                                         <td>{{ tag.name }}</td>
                                         <td>{{ tag.project_count }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editTagModal-{{ tag.id }}">
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editTagModal-{{ tag.id }}" title="เเก้ไขข้อมูล Tag">
                                                 Edit
                                             </button>
                                             {% include 'admins/tag_crud/tag_edit_modal.html' %}
                                             
-                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTagModal-{{ tag.id }}">
+                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTagModal-{{ tag.id }}" title="ลบข้อมูล Tag">
                                                 Delete
                                             </button>
                                             {% include 'admins/tag_crud/tag_delete_modal.html' %}

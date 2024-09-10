@@ -90,7 +90,7 @@
             <div class="container-fluid px-4">
                 <div class="row my-3">
                     <div class="col-md-12">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProjectModal">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProjectModal" title="เพิ่มข้อมูล Research">
                             <i class="fas fa-plus me-2"></i>Add Research
                         </button>
                     </div>
@@ -122,12 +122,12 @@
                                         <td>{{ project.project_date }}</td>
                                         <td>{{ project.project_tag.all|join:", " }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editResearchModal-{{ project.id }}">
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editResearchModal-{{ project.id }}" title="เเก้ไขข้อมูล Research">
                                                 Edit
                                             </button>
                                             {% include 'admins/research_crud/research_edit_modal.html' %}
                                             
-                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteResearchModal-{{ project.id }}">
+                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteResearchModal-{{ project.id }}" title="ลบข้อมูล Research">
                                                 Delete
                                             </button>
                                             {% include 'admins/research_crud/research_delete_modal.html' %}
