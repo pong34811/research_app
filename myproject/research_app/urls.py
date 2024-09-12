@@ -20,4 +20,5 @@ urlpatterns = [
     path('tag/delete/<int:id>/',views.tag_delete, name='tag_delete'),
     
     path('', views.user_list, name='user_list'),
+    path('project/<int:pk>/', views.project_detail, name='project_detail'),
 ]

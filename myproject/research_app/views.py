@@ -271,8 +271,41 @@ def tag_delete(request, id):
 
     return render(request, 'admins/tag_crud/tag_list.html', {'tag': tag})
         
-# user_Views.py
 def user_list(request):
-    return render(request, 'users/user_list.html')
+    # Get all projects and tags from the database
+    projects = ProjectModel.objects.all()
+    tags = TagModel.objects.all()
+    years = ProjectModel.objects.dates('project_date', 'year').distinct()
 
+    # Get search query
+    query = request.GET.get('query', '')
+    if query:
+        projects = projects.filter(project_name__icontains=query)
+
+    # Get filter parameters
+    tag_id = request.GET.get('tag', '')
+    year = request.GET.get('year', '')
+
+    if tag_id:
+        projects = projects.filter(project_tag__id=tag_id)
+
+    if year:
+        projects = projects.filter(project_date__year=year)
+
+    # Set up pagination
+    paginator = Paginator(projects, 9)  # Show 9 projects per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     
+    context = {
+        'projects': page_obj,
+        'tags': tags,
+        'years': years,
+        'query': query,
+    }
+    
+    return render(request, 'users/user_list.html', context)
+
+def project_detail(request, pk):
+    project = get_object_or_404(ProjectModel, pk=pk)
+    return render(request, 'users/project_detail.html', {'project': project})
