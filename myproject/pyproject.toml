@@ -7,8 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-django = "^5.1"
-
+django = "^5.1.1"
 pillow = "^10.4.0"
 django-select2 = "^8.2.1"
 
